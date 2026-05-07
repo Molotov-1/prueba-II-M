@@ -1,0 +1,31 @@
+package com.example.prueba2.model;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor 
+@NoArgsConstructor
+@Builder
+@Entity
+@Table(name = "dueños")
+public class Dueño {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @NotBlank(message = "El nombre del dueño es obligatorio")
+    @Size(min = 3, max = 15, message = "El nombre tiene que tener entre 3 y 15 caracteres")
+    @Column(nullable = false, length = 15)
+    private String nombre;
+}
