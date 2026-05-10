@@ -19,6 +19,8 @@ import com.example.prueba2.DTO.ClienteDTO;
 import com.example.prueba2.model.Cliente;
 import com.example.prueba2.service.ClienteService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/clientes")
 public class ClienteController {
@@ -59,7 +61,7 @@ public class ClienteController {
     
     //Guardar cliente
     @PostMapping
-    public ResponseEntity<Cliente> agregarCliente(@RequestBody Cliente cliente) {
+    public ResponseEntity<Cliente> agregarCliente(@Valid @RequestBody Cliente cliente) {
         try {
             Cliente guardado = clienteService.guardarCliente(cliente);
             return new ResponseEntity<>(guardado, HttpStatus.CREATED);
