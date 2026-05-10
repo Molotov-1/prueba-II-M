@@ -42,12 +42,13 @@ public class Pago {
     private String descripcion;
 
     @NotBlank (message = "El Monto total de su compra debe ser obligatorio")
-    @Size(min = 4, max = 8, message = "el monto total debe tener un min. de 4 caracteres")
+    @Size(min = 4, max = 8, message = "el monto total debe tener un min. de 1000 pesos")
     @Column(nullable = false, length = 100)
-    private int nombre;
+    private Integer Monto_total;
 
     @ManyToOne
     @JoinColumn(name = "nombre_tienda")
     @JoinColumn(name = "direccion_tienda")
     private Tienda tienda;
+    
 }
