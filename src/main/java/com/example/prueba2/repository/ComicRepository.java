@@ -8,5 +8,10 @@ import com.example.prueba2.model.Comic;
 
 @Repository
 public interface ComicRepository extends JpaRepository<Comic, Integer> {
+    
+    Comic findByISBN(String ISBN);
+
+    List<Comic> findByGenero(String genero);
+
     List<Comic> findByTitulo(String titulo);
 }

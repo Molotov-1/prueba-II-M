@@ -6,4 +6,6 @@ import com.example.prueba2.model.Empleado;
 
 @Repository
 public interface EmpleadoRepository extends JpaRepository<Empleado, Integer> {
+    
+    Empleado findByRut(Integer rut);
 }
