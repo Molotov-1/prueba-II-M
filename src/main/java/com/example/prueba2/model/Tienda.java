@@ -45,7 +45,4 @@ public class Tienda {
     @JoinColumn(name = "id_empleado")
     private Empleado empleado;
 
-    @ManyToOne
-    @JoinColumn(name = "stock_comics")
-    private Comic comic;
 }

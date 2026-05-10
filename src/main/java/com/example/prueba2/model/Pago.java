@@ -10,11 +10,13 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Data
 @Builder
@@ -40,6 +42,7 @@ public class Pago {
     @JoinColumn(name = "id_empleado")
     private Empleado empleado;
 
+    @NotNull
     private String descripcion;
 
     @NotBlank (message = "El Monto total de su compra debe ser obligatorio")
