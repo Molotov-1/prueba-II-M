@@ -2,6 +2,9 @@ package com.example.prueba2.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -19,6 +22,11 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name= "Tienda")
 public class Tienda {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
     @NotBlank (message = "El nombre de la tienda debe ser obligatorio")
     @Size(min = 3, max = 100, message = "El nombre de la tienda debe tener entre 3 y 100 caracteres")
     @Column(nullable = false, length = 100)
