@@ -20,7 +20,9 @@ import com.example.prueba2.model.Cliente;
 import com.example.prueba2.service.ClienteService;
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/clientes")
 public class ClienteController {
@@ -31,6 +33,7 @@ public class ClienteController {
     //Mostrar los clientes
     @GetMapping
     public ResponseEntity<List<ClienteDTO>> todosLosClientes(){
+        log.info("Obteniendo todos los clientes");
         List<ClienteDTO> clientes = clienteService.obtenerTodos();
         if(clientes.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -41,10 +44,12 @@ public class ClienteController {
     //Buscar por Id
     @GetMapping("/{id}")
     public ResponseEntity<ClienteDTO> buscarPorId(@PathVariable Integer id){
+        log.info("Buscando cliente con ID: {}", id);
         try {
             ClienteDTO cliente = clienteService.buscarPorId(id);
             return new ResponseEntity<>(cliente, HttpStatus.OK);
         } catch (RuntimeException e) {
+            
             return ResponseEntity.notFound().build();
         }
     }
