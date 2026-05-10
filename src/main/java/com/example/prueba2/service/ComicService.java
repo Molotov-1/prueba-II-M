@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.prueba2.DTO.ComicDTO;
 import com.example.prueba2.model.Comic;
 import com.example.prueba2.repository.ComicRepository;
 
@@ -44,26 +45,26 @@ public class ComicService {
 
     //Actualizar comic
     public Comic actualizarComics(Integer id, Comic comic){
-        Comic comic = comicRepository.findById(id).orElseThrow(() -> new RuntimeException("¡El Comic no existe en los registros!"));
-        if(comic.getTitulo() != null){
-            comic.setTitulo(comic.getTitulo());
+        Comic comic1 = comicRepository.findById(id).orElseThrow(() -> new RuntimeException("¡El Comic no existe en los registros!"));
+        if(comic1.getTitulo() != null){
+            comic1.setTitulo(comic1.getTitulo());
         }
-        if(comic.getISBN() != null){
-            comic.setISBN(comic.getISBN());
+        if(comic1.getISBN() != null){
+            comic1.setISBN(comic1.getISBN());
         }
-        if(comic.getGenero() != null){
-            comic.setGenero(comic.getGenero());
+        if(comic1.getGenero() != null){
+            comic1.setGenero(comic1.getGenero());
         }
-        if(comic.getPrecio() != null){
-            comic.setPrecio(comic.getPrecio());
+        if(comic1.getPrecio() != null){
+            comic1.setPrecio(comic1.getPrecio());
         }
-        if(comic.getFechaPublicacion() != null){
-            comic.setFechaPublicacion(comic.getFechaPublicacion());
+        if(comic1.getFechaPublicacion() != null){
+            comic1.setFechaPublicacion(comic1.getFechaPublicacion());
         }
-        if(comic.getStock() != null){
-            comic.setStock(comic.getStock());
+        if(comic1.getStock() != null){
+            comic1.setStock(comic1.getStock());
         }
-        return comicRepository.save(comic);
+        return comicRepository.save(comic1);
     }
 
     //Buscar por Nombre
@@ -91,10 +92,9 @@ public class ComicService {
         dto.setPrecio(comic.getPrecio());
         dto.setFechaPublicacion(comic.getFechaPublicacion());
         dto.setStock(comic.getStock());
+        return dto;
     }
 
 
 
 }
-
->>>>>>> 19cda1a08d176aedcdcc4694562632ca14c9a1bb

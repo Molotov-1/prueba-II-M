@@ -1,6 +1,5 @@
 package com.example.prueba2.service;
 
-<<<<<<< HEAD
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.prueba2.repository.TiendaRepository;
@@ -36,8 +35,4 @@ public class TiendaService {
         tiendaDTO.setDireccion(tienda.getDireccion_tienda());
         return tiendaDTO;
     }
-=======
-public class TiendaService {
-
->>>>>>> 19cda1a08d176aedcdcc4694562632ca14c9a1bb
 }

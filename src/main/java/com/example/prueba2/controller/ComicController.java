@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.prueba2.DTO.ComicDTO;
 import com.example.prueba2.model.Comic;
 import com.example.prueba2.service.ComicService;
 
@@ -52,7 +53,7 @@ public class ComicController {
         if(comics.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }    
-        return new ResponseEntity<>(comics, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }  
     
     //Guardar comic

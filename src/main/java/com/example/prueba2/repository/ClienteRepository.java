@@ -7,8 +7,6 @@ import com.example.prueba2.model.Cliente;
 
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Integer>{ 
-
-    Cliente findByRut(Integer rut);
-
+    Cliente findByRut(String rut);
     Cliente findByCorreo(String correo);
 }

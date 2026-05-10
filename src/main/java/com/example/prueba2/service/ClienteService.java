@@ -3,10 +3,8 @@ package com.example.prueba2.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.example.prueba2.DTO.ClienteDTO;
 import com.example.prueba2.model.Cliente;
-import com.example.prueba2.model.Comic;
 import com.example.prueba2.repository.ClienteRepository;
 import jakarta.transaction.Transactional;
 
@@ -14,16 +12,8 @@ import jakarta.transaction.Transactional;
 @Transactional
 public class ClienteService {
     @Autowired
-    private ClienteRepository clienteRepositoy; 
+    private ClienteRepository clienteRepository;
     
-    
-    public List<ClienteDTO> obtenerTodos() {
-        return clienteRepository.findAll().stream()
-                 .map(this::convertirADTO)
-                 .toList();
-    }
-
-    //Eliminar por Id
     public String eliminarcliente(Integer id){
         try {
             Cliente cliente = clienteRepository.findById(id)
@@ -35,6 +25,11 @@ public class ClienteService {
         }
     }
     
+    public List<ClienteDTO> obtenerTodos() {
+        return clienteRepository.findAll().stream()
+                 .map(this::convertirADTO)
+                 .toList();
+    }
 
 
 
@@ -46,51 +41,54 @@ public class ClienteService {
 
     //Actualizar comic
     public Cliente actualizarclientes(Integer id, Cliente cliente){
-        Cliente cliente = clienteRepository.findById(id).orElseThrow(() -> new RuntimeException("¡El Cliente no existe en los registros!"));
-        if(cliente.getNombre() != null){
-            cliente.setNombre(cliente.getNombre());
+        Cliente cliente1 = clienteRepository.findById(id).orElseThrow(() -> new RuntimeException("¡El Cliente no existe en los registros!"));
+        if(cliente1.getNombre() != null){
+            cliente1.setNombre(cliente1.getNombre());
         }
-        if(cliente.getApellido() != null){
-            cliente.setApellido(cliente.getApellido());
+        if(cliente1.getApellido() != null){
+            cliente1.setApellido(cliente1.getApellido());
         }
-        if(cliente.getEdad() != null){
-            cliente.setEdad(cliente.getEdad());
+        if(cliente1.getEdad() != null){
+            cliente1.setEdad(cliente1.getEdad());
         }
-        if(cliente.getCorreo() != null){
-            cliente.setCorreo(cliente.getCorreo());
+        if(cliente1.getCorreo() != null){
+            cliente1.setCorreo(cliente1.getCorreo());
         }
-        if(cliente.getTelefono() != null){
-            cliente.setTelefono(cliente.getTelefono());
+        if(cliente1.getTelefono() != null){
+            cliente1.setTelefono(cliente1.getTelefono());
         }
-        if(cliente.getDireccion() != null){
-            cliente.setDireccion(cliente.getDireccion());
+        if(cliente1.getDireccion() != null){
+            cliente1.setDireccion(cliente1.getDireccion());
         }
-        return clienteRepository.save(cliente);
+        return clienteRepository.save(cliente1);
     }
 
     //Buscar por Rut
-    public List<ClienteDTO> buscarPorRut(String Rut){
-        return clienteRepository.findByRut(Rut).stream()
-                 .map(this::convertirADTO)
-                 .toList();
+    public List<ClienteDTO> buscarPorRut(String rut) {
+        Cliente cliente = clienteRepository.findByRut(rut);
+        if (cliente != null) {
+            return List.of(convertirADTO(cliente));
+        } else {
+            return List.of();
+        }
     }
 
-     //Buscar por id
     public ClienteDTO buscarPorId(Integer id) {
         Cliente cliente = clienteRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("¡Cliente no encontrado!"));
         return convertirADTO(cliente);
     }
 
-
-
-
     private ClienteDTO convertirADTO(Cliente cliente){
         ClienteDTO dto = new ClienteDTO();
+        dto.setId_cliente(cliente.getId());
         dto.setNombre(cliente.getNombre());
         dto.setApellido(cliente.getApellido());
-        dto.setEdad(cliente.getEdad());
         dto.setRut(cliente.getRut());
+        dto.setCorreo(cliente.getCorreo());
+        dto.setTelefono(cliente.getTelefono());
+        dto.setDireccion(cliente.getDireccion());
         dto.setDv(cliente.getDv());
+        return dto;
     }
 }

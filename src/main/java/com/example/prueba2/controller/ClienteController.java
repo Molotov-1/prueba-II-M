@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.prueba2.DTO.ClienteDTO;
 import com.example.prueba2.model.Cliente;
 import com.example.prueba2.service.ClienteService;
 
@@ -53,7 +54,7 @@ public class ClienteController {
         if(clientes.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }    
-        return new ResponseEntity<>(cliente, HttpStatus.OK);
+        return new ResponseEntity<>(clientes.get(0), HttpStatus.OK);
     }  
     
     //Guardar cliente
