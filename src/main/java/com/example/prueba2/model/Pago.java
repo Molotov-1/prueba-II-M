@@ -35,14 +35,13 @@ public class Pago {
 
     @ManyToOne
     @JoinColumn(name = "id_cliente")
-    @JoinColumn(name = "direccion_cliente")
     private Cliente cliente;
 
     @ManyToOne
     @JoinColumn(name = "id_empleado")
     private Empleado empleado;
 
-    @NotNull
+
     private String descripcion;
 
     @NotBlank (message = "El Monto total de su compra debe ser obligatorio")
@@ -51,7 +50,6 @@ public class Pago {
     private Integer monto_total;
 
     @ManyToOne
-    @JoinColumn(name = "nombre_tienda")
-    @JoinColumn(name = "direccion_tienda")
+    @JoinColumn(name = "id_tienda")
     private Tienda tienda;
 }
