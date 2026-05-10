@@ -8,7 +8,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -46,10 +45,6 @@ public class Pago {
     @Size(min = 4, max = 8, message = "el monto total debe tener un min. de 1000 pesos")
     @Column(nullable = false, length = 100)
     private Integer Monto_total;
-
-    @Min(value = 1, message = "El monto total debe ser mayor a 0")    
-    @Column(nullable = false, length = 100)
-    private Integer monto_total;
 
     @ManyToOne
     @JoinColumn(name = "id_tienda")
