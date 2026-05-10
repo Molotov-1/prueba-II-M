@@ -8,4 +8,3 @@ import com.example.prueba2.model.Categoria;
 @Repository
 public interface CategoriaRepository extends JpaRepository<Categoria, Integer>{
 }
-

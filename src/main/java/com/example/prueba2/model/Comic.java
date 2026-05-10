@@ -11,13 +11,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 
 @Data
@@ -46,9 +46,9 @@ public class Comic {
     @Column(nullable = false, length = 100)
     private String genero;
 
-    @NotBlank (message = "El precio es obligatoria")
-    @Size(min = 4, max = 50, message = "El precio debe tener al menos 4 caracteres")
-    @Column(nullable = false, length = 50)
+    @NotBlank (message = "El precio es obligatorio")
+    @Min(value = 0, message = "El precio no puede ser negativo")
+    @Column(nullable = false)
     private Double precio;
 
     @NotBlank (message = "la fecha de publicacion es obligatoria")
@@ -56,27 +56,35 @@ public class Comic {
     private LocalDate fechaPublicacion;
 
     @NotBlank (message = "El stock es obligatorio")
+    @Min(value = 0, message = "El stock no puede ser negativo")
     @Column(nullable = false)
     private Integer stock;
 
-    @ManyToMany(mappedBy = "comics")
-    @ToString.Exclude
+    @ManyToMany
+    @JoinTable(name = "comic_editorial", 
+    joinColumns = @JoinColumn(name = "id_comic"), 
+    inverseJoinColumns = @JoinColumn(name = "id_editorial"))
     private List<Editorial> editoriales;
     
-    @ManyToMany(mappedBy = "comics")
-    @ToString.Exclude
+    @ManyToMany
+    @JoinTable(name = "comic_tienda", 
+    joinColumns = @JoinColumn(name = "id_comic"), 
+    inverseJoinColumns = @JoinColumn(name = "id_tienda"))
     private List<Tienda> tiendas;
 
-    @ManyToMany(mappedBy = "comics")
-    @ToString.Exclude
+    @ManyToMany
+    @JoinTable(name = "comic_categoria", 
+    joinColumns = @JoinColumn(name = "id_comic"), 
+    inverseJoinColumns = @JoinColumn(name = "id_categoria"))
     private List<Categoria> categorias;
 
     @ManyToMany
     @JoinTable(
-    name = "autor-comic",
+    name = "autor_comic",
     joinColumns = @JoinColumn(name = "id_comic"),
     inverseJoinColumns = @JoinColumn(name = "id_autor")
     )
     private List<Autor> autores;
+
 }
 

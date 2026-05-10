@@ -25,6 +25,10 @@ public class Tienda {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_tienda;
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @NotBlank (message = "El nombre de la tienda debe ser obligatorio")
     @Size(min = 3, max = 100, message = "El nombre de la tienda debe tener entre 3 y 100 caracteres")
@@ -44,7 +48,4 @@ public class Tienda {
     @JoinColumn(name = "id_empleado")
     private Empleado empleado;
 
-    @ManyToOne
-    @JoinColumn(name = "stock_comics")
-    private Comic comic;
 }

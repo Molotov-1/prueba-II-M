@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -32,12 +33,12 @@ public class Pago {
 
     @ManyToOne
     @JoinColumn(name = "id_cliente")
-    @JoinColumn(name = "direccion_cliente")
     private Cliente cliente;
 
     @ManyToOne
     @JoinColumn(name = "id_empleado")
     private Empleado empleado;
+
 
     private String descripcion;
 
@@ -46,9 +47,12 @@ public class Pago {
     @Column(nullable = false, length = 100)
     private Integer Monto_total;
 
+    @Min(value = 1, message = "El monto total debe ser mayor a 0")    
+    @Column(nullable = false, length = 100)
+    private Integer monto_total;
+
     @ManyToOne
-    @JoinColumn(name = "nombre_tienda")
-    @JoinColumn(name = "direccion_tienda")
+    @JoinColumn(name = "id_tienda")
     private Tienda tienda;
     
 }

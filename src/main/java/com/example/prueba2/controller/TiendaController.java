@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.prueba2.DTO.TiendaDTO;
 import com.example.prueba2.service.TiendaService;
 
+
 @RestController
 @RequestMapping("/api/v1/tienda")
 public class TiendaController {
@@ -19,5 +20,4 @@ public class TiendaController {
         List<TiendaDTO> tiendas = tiendaService.listarTiendas();
         return new ResponseEntity<>(tiendas, HttpStatus.OK);
     }
-    
 }
