@@ -7,9 +7,11 @@ import com.example.prueba2.DTO.ClienteDTO;
 import com.example.prueba2.model.Cliente;
 import com.example.prueba2.repository.ClienteRepository;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional
+@Slf4j
 public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
@@ -19,8 +21,10 @@ public class ClienteService {
             Cliente cliente = clienteRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("¡Imposible eliminar al Cliente! El Cliente con ID " + id + "no existe"));
             clienteRepository.delete(cliente);
+            log.info("Cliente eliminado: {}", cliente.getNombre());
             return "El Cliente '" + cliente.getNombre() + "' ha sido eliminado correctamente. ";
         } catch (RuntimeException e) {
+            log.error("Error al eliminar cliente: {}", e.getMessage());
             return e.getMessage();
         }
     }
@@ -35,30 +39,33 @@ public class ClienteService {
 
     //Guardar comic
     public Cliente guardarCliente(Cliente cliente){
+        log.info("Guardando cliente: {}", cliente.getNombre());
         return clienteRepository.save(cliente);
     }
 
 
     //Actualizar comic
     public Cliente actualizarclientes(Integer id, Cliente cliente){
+        log.info("Actualizando cliente: {}", cliente.getNombre());
         Cliente cliente1 = clienteRepository.findById(id).orElseThrow(() -> new RuntimeException("¡El Cliente no existe en los registros!"));
-        if(cliente1.getNombre() != null){
-            cliente1.setNombre(cliente1.getNombre());
+        
+        if(cliente.getNombre() != null){
+            cliente1.setNombre(cliente.getNombre());
         }
-        if(cliente1.getApellido() != null){
-            cliente1.setApellido(cliente1.getApellido());
+        if(cliente.getApellido() != null){
+            cliente1.setApellido(cliente.getApellido());
         }
-        if(cliente1.getEdad() != null){
-            cliente1.setEdad(cliente1.getEdad());
+        if(cliente.getEdad() != null){
+            cliente1.setEdad(cliente.getEdad());
         }
-        if(cliente1.getCorreo() != null){
-            cliente1.setCorreo(cliente1.getCorreo());
+        if(cliente.getCorreo() != null){
+            cliente1.setCorreo(cliente.getCorreo());
         }
-        if(cliente1.getTelefono() != null){
-            cliente1.setTelefono(cliente1.getTelefono());
+        if(cliente.getTelefono() != null){
+            cliente1.setTelefono(cliente.getTelefono());
         }
-        if(cliente1.getDireccion() != null){
-            cliente1.setDireccion(cliente1.getDireccion());
+        if(cliente.getDireccion() != null){
+            cliente1.setDireccion(cliente.getDireccion());
         }
         return clienteRepository.save(cliente1);
     }
@@ -67,8 +74,10 @@ public class ClienteService {
     public List<ClienteDTO> buscarPorRut(String rut) {
         Cliente cliente = clienteRepository.findByRut(rut);
         if (cliente != null) {
+            log.info("Cliente encontrado por Rut: {}", cliente.getNombre());
             return List.of(convertirADTO(cliente));
         } else {
+            log.warn("No se encontró cliente con Rut: {}", rut);
             return List.of();
         }
     }
@@ -84,7 +93,7 @@ public class ClienteService {
         dto.setId_cliente(cliente.getId());
         dto.setNombre(cliente.getNombre());
         dto.setApellido(cliente.getApellido());
-        dto.setRut(cliente.getRut());
+        dto.setRut(cliente.getRut()); 
         dto.setCorreo(cliente.getCorreo());
         dto.setTelefono(cliente.getTelefono());
         dto.setDireccion(cliente.getDireccion());

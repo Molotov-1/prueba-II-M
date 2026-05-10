@@ -72,7 +72,7 @@ public class EnvioService {
     //convertir a dto
     private EnvioDTO convertirADTO(Envio envio){
         EnvioDTO dto = new EnvioDTO();
-        dto.setIdEnvio(envio.getIdEnvio());
+        dto.setIdEnvio(envio.getIdEnvio()); 
         dto.setFechaSalida(envio.getFechaSalida());
         dto.setFechaEntrega(envio.getFechaEntrega());
         dto.setTipoEnvio(envio.getTipoEnvio());
