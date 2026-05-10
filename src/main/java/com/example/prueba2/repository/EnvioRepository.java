@@ -6,5 +6,4 @@ import com.example.prueba2.model.Envio;
 
 @Repository
 public interface  EnvioRepository extends JpaRepository<Envio, Integer> {
-
 }
