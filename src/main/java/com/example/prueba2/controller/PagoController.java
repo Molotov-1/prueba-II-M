@@ -72,7 +72,7 @@ public class PagoController {
         }
     }
 
-    @DeleteMapping("/eliminar/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarPago(@PathVariable Integer id) {
         log.info("Eliminando pago con ID: {}", id);
         String resultado = pagoService.eliminar(id);
