@@ -48,22 +48,23 @@ public class EnvioService {
         return envioRepository.save(envio);
     }
 
-
+    
     //Actualizar Envio
     public Envio actualizarEnvio(Integer id, Envio envio){
         log.info("Actualizando envio: {}", envio.getIdEnvio());
         Envio envio1 = envioRepository.findById(id).orElseThrow(() -> new RuntimeException("¡El Envio no existe en los registros!"));
-        if(envio1.getFechaSalida() != null){
-            envio1.setFechaSalida(envio1.getFechaSalida());
+        
+        if (envio.getFechaSalida() != null) {
+            envio1.setFechaSalida(envio.getFechaSalida());
         }
-        if(envio1.getFechaEntrega() != null){
-            envio1.setFechaEntrega(envio1.getFechaEntrega());
+        if (envio.getFechaEntrega() != null) {
+            envio1.setFechaEntrega(envio.getFechaEntrega());
         }
-        if(envio1.getTipoEnvio() != null){
-            envio1.setTipoEnvio(envio1.getTipoEnvio());;
+        if (envio.getTipoEnvio() != null) {
+            envio1.setTipoEnvio(envio.getTipoEnvio());
         }
-        if(envio1.getSucursal() != null){
-            envio1.setSucursal(envio1.getSucursal());;
+        if (envio.getSucursal() != null) {
+            envio1.setSucursal(envio.getSucursal());
         }
         
         log.info("Envio actualizado: {}", envio1.getIdEnvio());

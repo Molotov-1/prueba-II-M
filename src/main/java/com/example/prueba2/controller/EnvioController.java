@@ -74,7 +74,7 @@ public class EnvioController {
     public ResponseEntity<Envio> editarEnvio(@PathVariable Integer id, @Valid @RequestBody Envio envio) {
         log.info("Editando envio con ID: {}", id);
         try {
-            Envio editado = envioService.actualizarEnvio(id, envio);
+            Envio editado = envioService.guardarEnvio(envio);
             return new ResponseEntity<>(editado, HttpStatus.OK);
         } catch (RuntimeException e) {
             log.error("Error al editar envio con ID: {}: {}", id, e.getMessage());
