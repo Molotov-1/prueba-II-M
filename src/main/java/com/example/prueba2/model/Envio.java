@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,12 +30,11 @@ public class Envio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idEnvio;
 
-    @Size(min = 3, max = 10, message = "La fecha de salida debe tener entre 3 y 10 caracteres")
+    @NotNull
     @Column(nullable = false, length = 10)
     private LocalDate fechaSalida;
 
-    @NotBlank(message = "La fecha de entrega es obligatoria")
-    @Size(min = 3, max = 10, message = "La fecha de entrega debe tener entre 3 y 10 caracteres")
+    @NotNull(message = "La fecha de entrega es obligatoria")
     @Column(nullable = false, length = 10)
     private LocalDate fechaEntrega;
 
