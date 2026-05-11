@@ -8,6 +8,10 @@ import com.example.prueba2.DTO.PagoDTO;
 import com.example.prueba2.model.Pago;
 import com.example.prueba2.service.PagoService;
 
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/pago")
 public class PagoController {
@@ -16,32 +20,38 @@ public class PagoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<PagoDTO> obtenerPagoPorId(@PathVariable Integer id) {
+        log.info("Obteniendo pago con ID: {}", id);
         try {
             PagoDTO pagoDTO = pagoService.buscarPorId(id);
             return new ResponseEntity<>(pagoDTO, HttpStatus.OK);
         } catch (RuntimeException e) {
+            log.error("Error al obtener pago con ID: {}: {}", id, e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping("/guardar")
-    public ResponseEntity<Pago> guardarPago(@RequestBody Pago pago) {
+    public ResponseEntity<Pago> guardarPago(@Valid @RequestBody Pago pago) {
+        log.info("Guardando nuevo pago: {}", pago);
         Pago nuevoPago = pagoService.guardarPago(pago);
         return new ResponseEntity<>(nuevoPago, HttpStatus.CREATED);
     }
 
     @PutMapping("/actualizar/{id}")
-    public ResponseEntity<Pago> actualizarPago(@PathVariable Integer id, @RequestBody Pago pagoActualizado) {
+    public ResponseEntity<Pago> actualizarPago(@PathVariable Integer id, @Valid @RequestBody Pago pagoActualizado) {
+        log.info("Actualizando pago con ID: {}", id);
         try {
             Pago pago = pagoService.actualizarPago(id, pagoActualizado);
             return new ResponseEntity<>(pago, HttpStatus.OK);
         } catch (RuntimeException e) {
+            log.error("Error al actualizar pago con ID: {}: {}", id, e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<String> eliminarPago(@PathVariable Integer id) {
+        log.info("Eliminando pago con ID: {}", id);
         String resultado = pagoService.eliminar(id);
         if (resultado.contains("exitosamente")) {
             return new ResponseEntity<>(resultado, HttpStatus.OK);

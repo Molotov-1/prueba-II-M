@@ -19,6 +19,10 @@ import com.example.prueba2.DTO.EnvioDTO;
 import com.example.prueba2.model.Envio;
 import com.example.prueba2.service.EnvioService;
 
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/envios")
 public class EnvioController {
@@ -29,6 +33,7 @@ public class EnvioController {
     //Mostrar Los Envios
     @GetMapping
     public ResponseEntity<List<EnvioDTO>> todosLosEnvios(){
+        log.info("Obteniendo todos los envios");
         List<EnvioDTO> envios = envioService.obtenerTodos();
         if(envios.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -39,10 +44,12 @@ public class EnvioController {
     //Buscar por Id
     @GetMapping("/{id}")
     public ResponseEntity<EnvioDTO> buscarPorId(@PathVariable Integer id){
+        log.info("Buscando envio por ID: {}", id);
         try {
             EnvioDTO envio = envioService.buscarPorId(id);
             return new ResponseEntity<>(envio, HttpStatus.OK);
         } catch (RuntimeException e) {
+            log.error("Error al buscar envio con ID: {}: {}", id, e.getMessage());
             return ResponseEntity.notFound().build();
         }
     }
@@ -50,11 +57,13 @@ public class EnvioController {
     
     //Guardar Envio
     @PostMapping
-    public ResponseEntity<Envio> agregarEnvio(@RequestBody Envio envio) {
+    public ResponseEntity<Envio> agregarEnvio(@Valid @RequestBody Envio envio) {
+        log.info("Guardando envio: {}", envio.getIdEnvio());
         try {
             Envio guardado = envioService.guardarEnvio(envio);
             return new ResponseEntity<>(guardado, HttpStatus.CREATED);
         } catch (Exception e) {
+            log.error("Error al guardar envio: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -62,22 +71,26 @@ public class EnvioController {
 
     //Editar Envio
     @PatchMapping("/{id}")
-    public ResponseEntity<Envio> editarCliente(@PathVariable Integer id, @RequestBody Envio envio) {
+    public ResponseEntity<Envio> editarEnvio(@PathVariable Integer id, @Valid @RequestBody Envio envio) {
+        log.info("Editando envio con ID: {}", id);
         try {
             Envio editado = envioService.guardarEnvio(envio);
             return new ResponseEntity<>(editado, HttpStatus.OK);
         } catch (RuntimeException e) {
+            log.error("Error al editar envio con ID: {}: {}", id, e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     //Actualizar Envio
     @PutMapping("/{id}")
-    public ResponseEntity<Envio> actualizarEnvio(@PathVariable Integer id, @RequestBody Envio envio){
+    public ResponseEntity<Envio> actualizarEnvio(@PathVariable Integer id, @Valid @RequestBody Envio envio){
+        log.info("Actualizando envio con ID: {}", id);
         try{
             Envio newEnvio = envioService.actualizarEnvio(id, envio);
             return new ResponseEntity<>(newEnvio, HttpStatus.OK);
         }catch (RuntimeException e) {
+            log.error("Error al actualizar envio con ID: {}: {}", id, e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -85,6 +98,7 @@ public class EnvioController {
     //Eliminar Envio
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarEnvio(@PathVariable Integer id) {
+        log.info("Eliminando envio con ID: {}", id);
         String resultado = envioService.eliminarEnvio(id);
         
         // Si el mensaje contiene "exitosamente", es un éxito

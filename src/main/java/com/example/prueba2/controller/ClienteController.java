@@ -49,7 +49,7 @@ public class ClienteController {
             ClienteDTO cliente = clienteService.buscarPorId(id);
             return new ResponseEntity<>(cliente, HttpStatus.OK);
         } catch (RuntimeException e) {
-            
+            log.error("Error al buscar cliente con ID: {}: {}", id, e.getMessage());
             return ResponseEntity.notFound().build();
         }
     }
@@ -57,6 +57,7 @@ public class ClienteController {
     //Buscar por Rut
     @GetMapping("/rut/{rut}")
     public ResponseEntity<ClienteDTO> buscarPorRut(@PathVariable String rut){
+        log.info("Buscando cliente con RUT: {}", rut);
         List<ClienteDTO> clientes = clienteService.buscarPorRut(rut);
         if(clientes.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -67,10 +68,12 @@ public class ClienteController {
     //Guardar cliente
     @PostMapping
     public ResponseEntity<Cliente> agregarCliente(@Valid @RequestBody Cliente cliente) {
+        log.info("Agregando nuevo cliente: {}", cliente);
         try {
             Cliente guardado = clienteService.guardarCliente(cliente);
             return new ResponseEntity<>(guardado, HttpStatus.CREATED);
         } catch (Exception e) {
+            log.error("Error al agregar cliente: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -78,22 +81,26 @@ public class ClienteController {
 
     //Editar Cliente
     @PatchMapping("/{id}")
-    public ResponseEntity<Cliente> editarCliente(@PathVariable Integer id, @RequestBody Cliente cliente) {
+    public ResponseEntity<Cliente> editarCliente(@PathVariable Integer id, @Valid @RequestBody Cliente cliente) {
+        log.info("Editando cliente con ID: {}", id);
         try {
             Cliente editado = clienteService.guardarCliente(cliente);
             return new ResponseEntity<>(editado, HttpStatus.OK);
         } catch (RuntimeException e) {
+            log.error("Error al editar cliente con ID: {}: {}", id, e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     //Actualizar cliente
     @PutMapping("/{id}")
-    public ResponseEntity<Cliente> actualizarCliente(@PathVariable Integer id, @RequestBody Cliente cliente){
+    public ResponseEntity<Cliente> actualizarCliente(@PathVariable Integer id, @Valid @RequestBody Cliente cliente){
+        log.info("Actualizando cliente con ID: {}", id);
         try{
             Cliente newCliente = clienteService.actualizarclientes( id, cliente);
             return new ResponseEntity<>(newCliente, HttpStatus.OK);
         }catch (RuntimeException e) {
+            log.error("Error al actualizar cliente con ID: {}: {}", id, e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -101,6 +108,7 @@ public class ClienteController {
     //Eliminar cliente
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarCliente(@PathVariable Integer id) {
+        log.info("Eliminando cliente con ID: {}", id);
         String resultado = clienteService.eliminarcliente(id);
         
         // Si el mensaje contiene "exitosamente", es un éxito

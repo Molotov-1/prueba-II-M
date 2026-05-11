@@ -19,6 +19,10 @@ import com.example.prueba2.DTO.ComicDTO;
 import com.example.prueba2.model.Comic;
 import com.example.prueba2.service.ComicService;
 
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/comics")
 public class ComicController {
@@ -28,6 +32,7 @@ public class ComicController {
 
     @GetMapping
     public ResponseEntity<List<ComicDTO>> todosLosComic(){
+        log.info("Obteniendo todos los comics");
         List<ComicDTO> comics = comicService.obtenerTodos();
         if(comics.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -38,10 +43,12 @@ public class ComicController {
     //Buscar por Id
     @GetMapping("/{id}")
     public ResponseEntity<ComicDTO> buscarPorId(@PathVariable Integer id){
+        log.info("Buscando comic con ID: {}", id);
         try {
             ComicDTO comic = comicService.buscarPorId(id);
             return new ResponseEntity<>(comic, HttpStatus.OK);
         } catch (RuntimeException e) {
+            log.error("Error al buscar comic con ID: {}: {}", id, e.getMessage());
             return ResponseEntity.notFound().build();
         }
     }
@@ -49,6 +56,7 @@ public class ComicController {
     //Buscar por nombre
     @GetMapping("/nombre/{nombre}")
     public ResponseEntity<ComicDTO> buscarPorTitulo(@PathVariable String titulo){
+        log.info("Buscando comic con título: {}", titulo);
         List<ComicDTO> comics = comicService.buscarPorTitulo(titulo);
         if(comics.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -58,11 +66,13 @@ public class ComicController {
     
     //Guardar comic
     @PostMapping
-    public ResponseEntity<Comic> agregarComic(@RequestBody Comic comic) {
+    public ResponseEntity<Comic> agregarComic(@Valid @RequestBody Comic comic) {
+        log.info("Agregando nuevo comic: {}", comic);
         try {
             Comic guardado = comicService.guardarComic(comic);
             return new ResponseEntity<>(guardado, HttpStatus.CREATED);
         } catch (Exception e) {
+            log.error("Error al agregar comic: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -70,22 +80,26 @@ public class ComicController {
 
     //Editar comic
     @PatchMapping("/{id}")
-    public ResponseEntity<Comic> editarComic(@PathVariable Integer id, @RequestBody Comic comic) {
+    public ResponseEntity<Comic> editarComic(@PathVariable Integer id, @Valid @RequestBody Comic comic) {
+        log.info("Editando comic con ID: {}", id);
         try {
             Comic editado = comicService.guardarComic(comic);
             return new ResponseEntity<>(editado, HttpStatus.OK);
         } catch (RuntimeException e) {
+            log.error("Error al editar comic con ID: {}: {}", id, e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     //Actualizar comic
     @PutMapping("/{id}")
-    public ResponseEntity<Comic> actualizarComic(@PathVariable Integer id, @RequestBody Comic comic){
+    public ResponseEntity<Comic> actualizarComic(@PathVariable Integer id, @Valid @RequestBody Comic comic){
+        log.info("Actualizando comic con ID: {}", id);
         try{
             Comic newComic = comicService.actualizarComics(id, comic);
             return new ResponseEntity<>(newComic, HttpStatus.OK);
         }catch (RuntimeException e) {
+            log.error("Error al actualizar comic con ID: {}: {}", id, e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -93,9 +107,9 @@ public class ComicController {
     //Eliminar comic
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarCliente(@PathVariable Integer id) {
+        log.info("Eliminando comic con ID: {}", id);
         String resultado = comicService.eliminarComic(id);
-        
-        // Si el mensaje contiene "exitosamente", es un éxito
+
         if (resultado.contains("exitosamente")) {
             return new ResponseEntity<>(resultado, HttpStatus.OK);
         } else {

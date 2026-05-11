@@ -4,11 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.prueba2.repository.TiendaRepository;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.List;
 import java.util.ArrayList;
 import com.example.prueba2.DTO.TiendaDTO;
 import com.example.prueba2.model.Tienda;
 
+@Slf4j
 @Service
 @Transactional
 public class TiendaService {
@@ -17,6 +20,7 @@ public class TiendaService {
     private TiendaRepository TiendaRepository;
 
     public List<TiendaDTO> listarTiendas(){
+        log.info("Listando tiendas");
         List<Tienda> tiendas = TiendaRepository.findAll();
         List<TiendaDTO> tiendaDTOs = new ArrayList<>();
         for(Tienda tienda : tiendas){

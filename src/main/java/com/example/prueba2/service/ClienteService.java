@@ -30,6 +30,7 @@ public class ClienteService {
     }
     
     public List<ClienteDTO> obtenerTodos() {
+        log.info("Obteniendo todos los clientes");
         return clienteRepository.findAll().stream()
                  .map(this::convertirADTO)
                  .toList();
@@ -37,14 +38,14 @@ public class ClienteService {
 
 
 
-    //Guardar comic
+    //Guardar cliente
     public Cliente guardarCliente(Cliente cliente){
         log.info("Guardando cliente: {}", cliente.getNombre());
         return clienteRepository.save(cliente);
     }
 
 
-    //Actualizar comic
+    //Actualizar cliente
     public Cliente actualizarclientes(Integer id, Cliente cliente){
         log.info("Actualizando cliente: {}", cliente.getNombre());
         Cliente cliente1 = clienteRepository.findById(id).orElseThrow(() -> new RuntimeException("¡El Cliente no existe en los registros!"));
@@ -67,11 +68,13 @@ public class ClienteService {
         if(cliente.getDireccion() != null){
             cliente1.setDireccion(cliente.getDireccion());
         }
+        log.info("Cliente actualizado: {}", cliente1.getNombre());
         return clienteRepository.save(cliente1);
     }
 
     //Buscar por Rut
     public List<ClienteDTO> buscarPorRut(String rut) {
+        log.info("Buscando cliente por Rut: {}", rut);
         Cliente cliente = clienteRepository.findByRut(rut);
         if (cliente != null) {
             log.info("Cliente encontrado por Rut: {}", cliente.getNombre());
@@ -83,9 +86,10 @@ public class ClienteService {
     }
 
     public ClienteDTO buscarPorId(Integer id) {
+        log.info("Buscando cliente por ID: {}", id);
         Cliente cliente = clienteRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("¡Cliente no encontrado!"));
-        return convertirADTO(cliente);
+            return convertirADTO(cliente);
     }
 
     private ClienteDTO convertirADTO(Cliente cliente){

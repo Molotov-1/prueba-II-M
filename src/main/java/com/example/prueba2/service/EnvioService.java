@@ -10,7 +10,9 @@ import com.example.prueba2.model.Envio;
 import com.example.prueba2.repository.EnvioRepository;
 
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @Transactional
 public class EnvioService {
@@ -20,6 +22,7 @@ public class EnvioService {
     
     //Mostrar todos los Envios
     public List<EnvioDTO> obtenerTodos() {
+        log.info("Obteniendo todos los envios");
         return envioRepository.findAll().stream()
                  .map(this::convertirADTO)
                  .toList();
@@ -31,20 +34,24 @@ public class EnvioService {
             Envio envio = envioRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("¡Imposible eliminar el envio! El Envio con ID " + id + "no existe"));
             envioRepository.delete(envio);
+            log.info("Envio eliminado: {}", envio.getIdEnvio());
             return "El Envio '" + envio.getIdEnvio() + "' ha sido eliminado correctamente. ";
         } catch (RuntimeException e) {
+            log.error("Error al eliminar envio con ID: {}: {}", id, e.getMessage());
             return e.getMessage();
         }
     }
     
     //Guardar Envio
     public Envio guardarEnvio(Envio envio){
+        log.info("Guardando envio: {}", envio.getIdEnvio());
         return envioRepository.save(envio);
     }
 
 
     //Actualizar Envio
     public Envio actualizarEnvio(Integer id, Envio envio){
+        log.info("Actualizando envio: {}", envio.getIdEnvio());
         Envio envio1 = envioRepository.findById(id).orElseThrow(() -> new RuntimeException("¡El Envio no existe en los registros!"));
         if(envio1.getFechaSalida() != null){
             envio1.setFechaSalida(envio1.getFechaSalida());
@@ -58,11 +65,14 @@ public class EnvioService {
         if(envio1.getSucursal() != null){
             envio1.setSucursal(envio1.getSucursal());;
         }
+        
+        log.info("Envio actualizado: {}", envio1.getIdEnvio());
         return envioRepository.save(envio1);
     }
 
     //Buscar por id
     public EnvioDTO buscarPorId(Integer id) {
+        log.info("Buscando envio por ID: {}", id);
         Envio envio = envioRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("¡Envio no encontrado!"));
         return convertirADTO(envio);

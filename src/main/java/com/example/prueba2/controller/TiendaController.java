@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import com.example.prueba2.DTO.TiendaDTO;
 import com.example.prueba2.service.TiendaService;
 
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/tienda")
 public class TiendaController {
@@ -17,6 +19,7 @@ public class TiendaController {
 
     @GetMapping("/listar")
     public ResponseEntity<List<TiendaDTO>> listarTiendas(){
+        log.info("Listando todas las tiendas");
         List<TiendaDTO> tiendas = tiendaService.listarTiendas();
         return new ResponseEntity<>(tiendas, HttpStatus.OK);
     }

@@ -7,7 +7,9 @@ import com.example.prueba2.model.Pago;
 import com.example.prueba2.repository.PagoRepository;
 
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @Transactional
 public class PagoService {
@@ -17,6 +19,7 @@ public class PagoService {
 
 
     public PagoDTO buscarPorId(Integer id) {
+        log.info("Buscando pago por ID: {}", id);
         Pago pago = pagoRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("¡Pago no encontrado!"));
         return convertirADTO(pago);
@@ -27,22 +30,33 @@ public class PagoService {
             Pago pago = pagoRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("¡Imposible eliminar! El pago con ID " + id + " no existe."));
             pagoRepository.delete(pago);
+            log.info("Pago eliminado: {}", pago.getDescripcion());
             return "El pago '" + pago.getDescripcion() + "' ha sido eliminado exitosamente.";
         } catch (RuntimeException e) {
+            log.error("Error al eliminar pago con ID: {}: {}", id, e.getMessage());
             return e.getMessage();
         }
     }
 
     public Pago guardarPago(Pago pago) {
+        log.info("Guardando pago: {}", pago.getDescripcion());
         return pagoRepository.save(pago);
     }
 
     public Pago actualizarPago(Integer id, Pago pagoActualizado) {
+        log.info("Actualizando pago: {}", pagoActualizado.getDescripcion());
         Pago pagoExistente = pagoRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("¡Pago no encontrado!"));
-        pagoExistente.setDescripcion(pagoActualizado.getDescripcion());
-        pagoExistente.setMonto_total(pagoActualizado.getMonto_total());
-        return pagoRepository.save(pagoExistente);
+        
+            if(pagoActualizado.getDescripcion() != null) {
+                pagoExistente.setDescripcion(pagoActualizado.getDescripcion());
+            }
+            if(pagoActualizado.getMonto_total() != null) {
+                pagoExistente.setMonto_total(pagoActualizado.getMonto_total());
+            }
+        
+            log.info("Pago actualizado: {}", pagoExistente.getDescripcion());
+            return pagoRepository.save(pagoExistente);
     }
 
 

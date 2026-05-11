@@ -10,7 +10,9 @@ import com.example.prueba2.model.Comic;
 import com.example.prueba2.repository.ComicRepository;
 
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @Transactional
 public class ComicService {
@@ -20,6 +22,7 @@ public class ComicService {
     
     //Mostrar todos los comics
     public List<ComicDTO> obtenerTodos() {
+        log.info("Obteniendo todos los comics");
         return comicRepository.findAll().stream()
                  .map(this::convertirADTO)
                  .toList();
@@ -31,20 +34,24 @@ public class ComicService {
             Comic comic = comicRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("¡Imposible eliminar el comic! El Comic con ID " + id + "no existe"));
             comicRepository.delete(comic);
+            log.info("Comic eliminado: {}", comic.getTitulo());
             return "El Comic '" + comic.getTitulo() + "' ha sido eliminado correctamente. ";
         } catch (RuntimeException e) {
+            log.error("Error al eliminar comic con ID: {}: {}", id, e.getMessage());
             return e.getMessage();
         }
     }
     
     //Guardar comic
     public Comic guardarComic(Comic comic){
+        log.info("Guardando comic: {}", comic.getTitulo());
         return comicRepository.save(comic);
     }
 
 
     //Actualizar comic
     public Comic actualizarComics(Integer id, Comic comic){
+        log.info("Actualizando comic: {}", comic.getTitulo());
         Comic comic1 = comicRepository.findById(id).orElseThrow(() -> new RuntimeException("¡El Comic no existe en los registros!"));
         if(comic1.getTitulo() != null){
             comic1.setTitulo(comic1.getTitulo());
@@ -64,11 +71,13 @@ public class ComicService {
         if(comic1.getStock() != null){
             comic1.setStock(comic1.getStock());
         }
+        log.info("Comic actualizado: {}", comic1.getTitulo());
         return comicRepository.save(comic1);
     }
 
     //Buscar por Nombre
     public List<ComicDTO> buscarPorTitulo(String titulo){
+        log.info("Buscando comic por título: {}", titulo);
         return comicRepository.findByTitulo(titulo).stream()
                  .map(this::convertirADTO)
                  .toList();
@@ -76,6 +85,7 @@ public class ComicService {
 
     //Buscar por id
     public ComicDTO buscarPorId(Integer id) {
+        log.info("Buscando comic por ID: {}", id);
         Comic comic = comicRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("¡Comic no encontrado!"));
         return convertirADTO(comic);
