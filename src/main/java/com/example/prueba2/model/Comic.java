@@ -13,6 +13,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,16 +47,16 @@ public class Comic {
     @Column(nullable = false, length = 100)
     private String genero;
 
-    @NotBlank (message = "El precio es obligatorio")
+    @NotNull (message = "El precio es obligatorio")
     @Min(value = 0, message = "El precio no puede ser negativo")
     @Column(nullable = false)
     private Double precio;
 
-    @NotBlank (message = "la fecha de publicacion es obligatoria")
+    @NotNull (message = "la fecha de publicacion es obligatoria")
     @Column(nullable = false)
     private LocalDate fechaPublicacion;
 
-    @NotBlank (message = "El stock es obligatorio")
+    @NotNull (message = "El stock es obligatorio")
     @Min(value = 0, message = "El stock no puede ser negativo")
     @Column(nullable = false)
     private Integer stock;

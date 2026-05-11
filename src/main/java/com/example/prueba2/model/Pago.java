@@ -8,7 +8,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,9 +43,9 @@ public class Pago {
 
     private String descripcion;
 
-    @NotBlank (message = "El Monto total de su compra debe ser obligatorio")
-    @Size(min = 4, max = 8, message = "el monto total debe tener un min. de 1000 pesos")
-    @Column(nullable = false, length = 100)
+    @NotNull(message = "El Monto total de su compra debe ser obligatorio")
+    @Min(value = 1000, message = "El monto total debe tener un min. de 1000 pesos")
+    @Column(nullable = false)
     private Integer Monto_total;
 
     @ManyToOne
