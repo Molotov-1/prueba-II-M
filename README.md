@@ -1,3 +1,6 @@
+Participantes: Maximiliano Jimenez, Rayen Beltran, Sergio Torres
+
+
 USE tienda_comics_db;
 
 
